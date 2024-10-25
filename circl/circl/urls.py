@@ -24,7 +24,7 @@ from dash import views as dash_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", RedirectView.as_view(url="/dash/", permanent=True)),  # Redirect root to /dash/
+    path("", RedirectView.as_view(url="/dash/contacts/", permanent=True)),  # Redirect root to /dash/
     path("dash/", include("dash.urls")),  # Include URLs from dash app
     path('accounts/', include(urls)),
     path('login/', auth_views.LoginView.as_view(template_name='dash/login.html'), name='login'),

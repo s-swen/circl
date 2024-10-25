@@ -9,4 +9,6 @@ urlpatterns = [
     path('contacts/<int:pk>/delete/', views.delete_contact, name='delete-contact'),
     path('todo/', views.todo, name='todo'),
     path('reminders/', views.reminders, name='reminders'),
+    path('signup/', views.signup, name='signup'),
+    path('settings/', views.settings, name='settings'),
 ]

@@ -8,4 +8,6 @@
     {{ form.as_p }}
     <button type="submit">Login</button>
 </form>
+<!-- In your login.html template -->
+<p class="auth-link">Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
 {% endblock %}

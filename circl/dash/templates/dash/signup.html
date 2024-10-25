@@ -1,0 +1,22 @@
+<!-- dash/templates/dash/signup.html -->
+{% extends "dash/base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Sign Up</h2>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <small class="error">{{ field.errors|striptags }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+    <p class="auth-link">Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+</div>
+{% endblock %}

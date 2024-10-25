@@ -2,23 +2,74 @@
 {% extends 'dash/base.html' %}
 
 {% block content %}
-<div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">Contacts</h1>
-    <a href="{% url 'add-contact' %}" class="btn btn-primary">Add New Contact</a>
-</div>
-<div class="contact-list">
-    {% for contact in contacts %}
-    <div class="contact-card">
-        <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-        <p>Email: {{ contact.email }}</p>
-        <p>Phone: {{ contact.phone_number|default:"N/A" }}</p>
-        <p>Category: {{ contact.get_category }}</p>
-        <div class="mt-4">
-            <a href="{% url 'delete-contact' contact.id %}" class="btn btn-secondary">Delete</a>
+<h2 class="card-title">Contact Management</h2>
+
+<div class="card">
+    <h3 class="card-title">Add New Contact</h3>
+    <form method="post" action="{% url 'add-contact' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" placeholder="Enter contact name" required>
         </div>
-    </div>
-    {% empty %}
-    <p>No contacts found.</p>
-    {% endfor %}
+        <div class="form-group">
+            <select name="category" class="form-control" required>
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="family">Family</option>
+            </select>
+        </div>
+        <button type="submit" class="btn"><i class="bi bi-plus"></i> Add Contact</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3 class="card-title">Work Contacts</h3>
+    <ul class="contact-list">
+        {% for contact in contacts %}
+        {% if contact.category == 'work' %}
+        <li class="contact-item">
+            {{ contact.first_name }} {{ contact.last_name }}
+            <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
+            </form>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h3 class="card-title">Personal Contacts</h3>
+    <ul class="contact-list">
+        {% for contact in contacts %}
+        {% if contact.category == 'personal' %}
+        <li class="contact-item">
+            {{ contact.first_name }} {{ contact.last_name }}
+            <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
+            </form>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="card">
+    <h3 class="card-title">Family Contacts</h3>
+    <ul class="contact-list">
+        {% for contact in contacts %}
+        {% if contact.category == 'family' %}
+        <li class="contact-item">
+            {{ contact.first_name }} {{ contact.last_name }}
+            <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
+            </form>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

@@ -1,0 +1,32 @@
+<!-- templates/home.html -->
+{% extends 'dash/base.html' %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="card">
+        <h2 class="card-title">Total Contacts</h2>
+        <p class="text-4xl font-bold">{{ total_contacts }}</p>
+    </div>
+    <div class="card">
+        <h2 class="card-title">Upcoming Birthdays</h2>
+        <ul>
+            {% for contact in upcoming_birthdays %}
+                <li>{{ contact.first_name }} {{ contact.last_name }} - {{ contact.birthday }}</li>
+            {% empty %}
+                <li>No upcoming birthdays</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card">
+        <h2 class="card-title">Recent Contacts</h2>
+        <ul>
+            {% for contact in recent_contacts %}
+                <li>{{ contact.first_name }} {{ contact.last_name }}</li>
+            {% empty %}
+                <li>No recent contacts</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 # views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Contact
 from .forms import ContactForm
@@ -18,13 +18,27 @@ def contact_list(request):
 @login_required
 def add_contact(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = ContactForm(request.POST, request.FILES)
         if form.is_valid():
             contact = form.save(commit=False)
             contact.user = request.user.profile
             contact.save()
-            return redirect('contact-list')
-    return redirect('contact-list')
+            return redirect('contact-detail', pk=contact.pk)
+    else:
+        form = ContactForm()
+    return render(request, 'dash/add_contact.html', {'form': form})
+
+@login_required
+def contact_detail(request, pk):
+    contact = get_object_or_404(Contact, pk=pk, user=request.user.profile)
+    if request.method == 'POST':
+        form = ContactForm(request.POST, request.FILES, instance=contact)
+        if form.is_valid():
+            form.save()
+            return redirect('contact-detail', pk=contact.pk)
+    else:
+        form = ContactForm(instance=contact)
+    return render(request, 'dash/contact_detail.html', {'form': form, 'contact': contact})
 
 @login_required
 def delete_contact(request, pk):

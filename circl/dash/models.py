@@ -14,6 +14,8 @@ class Contact(models.Model):
         ('work', 'Work'),
         ('personal', 'Personal'),
         ('family', 'Family'),
+        ('alumni', 'Alumni'),
+        ('other', 'Other'), 
     ]
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)

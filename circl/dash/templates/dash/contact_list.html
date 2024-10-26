@@ -90,4 +90,21 @@
     </ul>
 </div>
 
+<div class="card">
+    <h3 class="card-title">Other Contacts</h3>
+    <ul class="contact-list">
+        {% for contact in contacts %}
+        {% if contact.category == 'other' %}
+        <li class="contact-item">
+            {{ contact.first_name }} {{ contact.last_name }}
+            <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
+            </form>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

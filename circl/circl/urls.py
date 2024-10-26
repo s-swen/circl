@@ -28,7 +28,6 @@ urlpatterns = [
     path("dash/", include("dash.urls")),  # Include URLs from dash app
     path('accounts/', include(urls)),
     path('login/', dash_views.login_view, name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('signup/', dash_views.signup_view, name='signup'),
 ]
     

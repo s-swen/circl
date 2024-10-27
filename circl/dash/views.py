@@ -16,7 +16,7 @@ def contact_list(request):
     return render(request, 'dash/contact_list.html', {'contacts': contacts})
 
 @login_required
-def add_contact(request):
+def add_contact_detail(request):
     if request.method == 'POST':
         form = ContactForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,7 +26,7 @@ def add_contact(request):
             return redirect('contact-detail', pk=contact.pk)
     else:
         form = ContactForm()
-    return render(request, 'dash/add_contact.html', {'form': form})
+    return render(request, 'dash/add_contact_detail.html', {'form': form})
 
 @login_required
 def contact_detail(request, pk):

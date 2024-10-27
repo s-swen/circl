@@ -6,7 +6,7 @@
 
 <div class="card">
     <h3 class="card-title">Add New Contact</h3>
-    <form method="post" action="{% url 'add-contact' %}">
+    <form method="post" action="{% url 'add-contact-detail' %}">
         {% csrf_token %}
         <div class="form-group">
             <input type="text" name="name" class="form-control" placeholder="Enter contact name" required>
@@ -28,7 +28,7 @@
         {% for contact in contacts %}
         {% if contact.category == 'work' %}
         <li class="contact-item">
-            {{ contact.first_name }} {{ contact.last_name }}
+            <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
             <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
@@ -45,7 +45,7 @@
         {% for contact in contacts %}
         {% if contact.category == 'personal' %}
         <li class="contact-item">
-            {{ contact.first_name }} {{ contact.last_name }}
+            <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
             <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
@@ -62,7 +62,7 @@
         {% for contact in contacts %}
         {% if contact.category == 'family' %}
         <li class="contact-item">
-            {{ contact.first_name }} {{ contact.last_name }}
+            <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
             <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
@@ -79,7 +79,7 @@
         {% for contact in contacts %}
         {% if contact.category == 'alumni' %}
         <li class="contact-item">
-            {{ contact.first_name }} {{ contact.last_name }}
+            <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
             <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
@@ -96,7 +96,7 @@
         {% for contact in contacts %}
         {% if contact.category == 'other' %}
         <li class="contact-item">
-            {{ contact.first_name }} {{ contact.last_name }}
+            <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
             <form method="post" action="{% url 'delete-contact' contact.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>

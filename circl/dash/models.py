@@ -31,6 +31,7 @@ class Contact(models.Model):
     instagram_handle = models.CharField(max_length=100, blank=True, null=True)
     linkedin_url = models.URLField(blank=True, null=True)
     uploaded_document = models.FileField(upload_to='documents/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -134,3 +134,6 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = '/dash/'  # Redirect to dashboard after login
 LOGIN_URL = '/login/'  # URL for the login page
 LOGOUT_REDIRECT_URL = '/login/'  # Redirect to login page after logout
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

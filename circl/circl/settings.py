@@ -29,7 +29,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://localhost:8000']
+else:
+    CSRF_TRUSTED_ORIGINS = []
+    
 # Application definition
 
 INSTALLED_APPS = [

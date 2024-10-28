@@ -266,10 +266,45 @@
             opacity: 0.9;
         }
 
-/* 
-        .profile-container, .profile-info, .info-branch, .branch-1, .branch-2, .branch-3, .branch-4, .branch-5, .branch-6 {
-            all: unset;
-        } */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            flex: 0 0 48%;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .profile-picture-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .update-picture-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>

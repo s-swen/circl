@@ -1,0 +1,114 @@
+{% extends 'dash/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+    <h2 class="card-title">Edit Contact</h2>
+    <form method="post" enctype="multipart/form-data" class="contact-form">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.profile_picture.id_for_label }}">
+                    <i class="bi bi-person-circle"></i> Profile Picture
+                </label>
+                <div class="profile-picture-container">
+                    {% if contact.profile_picture %}
+                        <img src="{{ contact.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                    {% else %}
+                        <img src="{% static 'dash/images/default-profile.png' %}" alt="Default Profile Picture" class="profile-picture">
+                    {% endif %}
+                    <label for="{{ form.profile_picture.id_for_label }}" class="btn btn-sm btn-primary update-picture-btn">
+                        Update
+                        <input type="file" name="{{ form.profile_picture.name }}" accept="image/*" id="{{ form.profile_picture.id_for_label }}" style="display: none;">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">
+                    <i class="bi bi-person"></i> First Name
+                </label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">
+                    <i class="bi bi-person"></i> Last Name
+                </label>
+                {{ form.last_name }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.category.id_for_label }}">
+                    <i class="bi bi-tag"></i> Category
+                </label>
+                {{ form.category }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">
+                    <i class="bi bi-envelope"></i> Email
+                </label>
+                {{ form.email }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.phone_number.id_for_label }}">
+                    <i class="bi bi-telephone"></i> Phone Number
+                </label>
+                {{ form.phone_number }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.birthday.id_for_label }}">
+                    <i class="bi bi-calendar"></i> Birthday
+                </label>
+                {{ form.birthday }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.last_contact.id_for_label }}">
+                    <i class="bi bi-clock"></i> Last Contact
+                </label>
+                {{ form.last_contact }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.work.id_for_label }}">
+                    <i class="bi bi-briefcase"></i> Work
+                </label>
+                {{ form.work }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.instagram_handle.id_for_label }}">
+                    <i class="bi bi-instagram"></i> Instagram Handle
+                </label>
+                {{ form.instagram_handle }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.linkedin_url.id_for_label }}">
+                    <i class="bi bi-linkedin"></i> LinkedIn URL
+                </label>
+                {{ form.linkedin_url }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.note.id_for_label }}">
+                <i class="bi bi-sticky"></i> Note
+            </label>
+            {{ form.note }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.uploaded_document.id_for_label }}">
+                <i class="bi bi-file-earmark"></i> Upload Document
+            </label>
+            {{ form.uploaded_document }}
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Update Contact
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-# views.py
+# dash/views.py
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Contact
@@ -13,32 +13,33 @@ def dashboard(request):
 @login_required
 def contact_list(request):
     contacts = Contact.objects.filter(user=request.user.profile)
-    return render(request, 'dash/contact_list.html', {'contacts': contacts})
+    category_choices = Contact.CATEGORY_CHOICES
+    return render(request, 'dash/contact_list.html', {'contacts': contacts, 'category_choices': category_choices})
 
 @login_required
-def add_contact_detail(request):
+def edit_contact(request, pk=None):
+    if pk:
+        contact = get_object_or_404(Contact, pk=pk, user=request.user.profile)
+    else:
+        contact = None
+
     if request.method == 'POST':
-        form = ContactForm(request.POST, request.FILES)
+        form = ContactForm(request.POST, request.FILES, instance=contact)
         if form.is_valid():
             contact = form.save(commit=False)
-            contact.user = request.user.profile
+            if not contact.pk:
+                contact.user = request.user.profile
             contact.save()
             return redirect('contact-detail', pk=contact.pk)
     else:
-        form = ContactForm()
-    return render(request, 'dash/add_contact_detail.html', {'form': form})
+        form = ContactForm(instance=contact)
+
+    return render(request, 'dash/edit_contact.html', {'form': form, 'contact': contact})
 
 @login_required
 def contact_detail(request, pk):
     contact = get_object_or_404(Contact, pk=pk, user=request.user.profile)
-    if request.method == 'POST':
-        form = ContactForm(request.POST, request.FILES, instance=contact)
-        if form.is_valid():
-            form.save()
-            return redirect('contact-detail', pk=contact.pk)
-    else:
-        form = ContactForm(instance=contact)
-    return render(request, 'dash/contact_detail.html', {'form': form, 'contact': contact})
+    return render(request, 'dash/contact_detail.html', {'contact': contact})
 
 @login_required
 def delete_contact(request, pk):
@@ -55,13 +56,9 @@ def todo(request):
 def reminders(request):
     return render(request, 'dash/reminders.html')
 
-# dash/views.py
 @login_required
 def settings(request):
     return render(request, 'dash/settings.html')
-
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     if request.method == 'POST':
@@ -83,4 +80,3 @@ def signup_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'dash/signup.html', {'form': form})
-

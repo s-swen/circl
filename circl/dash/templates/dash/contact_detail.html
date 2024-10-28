@@ -50,7 +50,7 @@
     {% endif %}
     
     <div class="profile-actions">
-        <a href="{% url 'contact-detail' contact.id %}" class="btn btn-primary"><i class="bi bi-pencil"></i> Edit</a>
+        <a href="{% url 'edit-contact' contact.id %}" class="btn btn-primary"><i class="bi bi-pencil"></i> Edit</a>
         <a href="{% url 'delete-contact' contact.id %}" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
     </div>
 </div>

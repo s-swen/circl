@@ -31,32 +31,32 @@
     <div class="category-card">
         <h3 class="card-title">{{ category_name }} Contacts</h3>
         <ul class="contact-list">
+            {% with counter=0 %}
             {% for contact in contacts %}
-            {% if contact.category == category %}
-            {% if forloop.counter <= 3 %}
-            <li class="contact-item">
-                <div class="contact-info">
-                    {% if contact.profile_picture %}
-                        <img src="{{ contact.profile_picture.url }}" alt="{{ contact.first_name }} {{ contact.last_name }}" class="profile-pic">
-                    {% else %}
-                        <div class="profile-pic initials">{{ contact.first_name|first }}{{ contact.last_name|first }}</div>
-                    {% endif %}
-                    <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
-                </div>
-                <div class="contact-actions">
-                    <a href="{% url 'edit-contact' contact.id %}" class="icon-btn"><i class="bi bi-pencil"></i></a>
-                    <button class="icon-btn delete-btn" data-id="{{ contact.id }}"><i class="bi bi-trash"></i></button>
-                </div>
-            </li>
-            {% endif %}
-            {% endif %}
+                {% if contact.category == category and counter < 3 %}
+                    <li class="contact-item">
+                        <div class="contact-info">
+                            {% if contact.profile_picture %}
+                                <img src="{{ contact.profile_picture.url }}" alt="{{ contact.first_name }} {{ contact.last_name }}" class="profile-pic">
+                            {% else %}
+                                <div class="profile-pic initials">{{ contact.first_name|first }}{{ contact.last_name|first }}</div>
+                            {% endif %}
+                            <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
+                        </div>
+                        <div class="contact-actions">
+                            <a href="{% url 'edit-contact' contact.id %}" class="icon-btn"><i class="bi bi-pencil"></i></a>
+                            <button class="icon-btn delete-btn" data-id="{{ contact.id }}"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </li>
+                    {% with counter=counter|add:1 %}
+                    {% endwith %}
+                {% endif %}
             {% endfor %}
+            {% endwith %}
         </ul>
-        {% with category_contacts=contacts|dictsort:"category" %}
-        {% if category_contacts|length > 3 %}
+        {% if contacts|length > 3 %}
         <a href="{% url 'category-contacts' category %}" class="btn view-more-btn">View More</a>
         {% endif %}
-        {% endwith %}
     </div>
     {% endfor %}
 </div>
@@ -126,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     display: flex;
     flex-direction: column;
     height: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
 }
 
 .contact-list {
@@ -182,15 +184,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .view-more-btn {
-    display: inline-block;
+    display: block;
     text-align: center;
     margin-top: 10px;
-    padding: 10px 20px;
+    padding: 8px 12px;
     background-color: #007bff;
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    align-self: center;
+    max-width: 100px;
 }
 
 .modal {

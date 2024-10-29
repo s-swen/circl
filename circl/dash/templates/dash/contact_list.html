@@ -33,7 +33,7 @@
         <ul class="contact-list">
             {% for contact in contacts %}
             {% if contact.category == category %}
-            {% if forloop.counter <= 7 %}
+            {% if forloop.counter <= 3 %}
             <li class="contact-item">
                 <div class="contact-info">
                     {% if contact.profile_picture %}
@@ -52,9 +52,11 @@
             {% endif %}
             {% endfor %}
         </ul>
-        {% if contacts|length > 7 %}
+        {% with category_contacts=contacts|dictsort:"category" %}
+        {% if category_contacts|length > 3 %}
         <a href="{% url 'category-contacts' category %}" class="btn view-more-btn">View More</a>
         {% endif %}
+        {% endwith %}
     </div>
     {% endfor %}
 </div>
@@ -92,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     confirmDelete.addEventListener('click', function() {
         if (deleteId) {
-            deleteForm.action = `/dash/contacts/${deleteId}/delete/`;  // Update this line
+            deleteForm.action = `/dash/contacts/${deleteId}/delete/`;
             deleteForm.submit();
         }
     });
@@ -121,11 +123,17 @@ document.addEventListener('DOMContentLoaded', function() {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .contact-list {
     list-style-type: none;
     padding: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 300px;
 }
 
 .contact-item {
@@ -156,6 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    width: 40px;
+    height: 40px;
 }
 
 .contact-actions {
@@ -172,10 +182,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .view-more-btn {
-    display: block;
-    width: 100%;
+    display: inline-block;
     text-align: center;
     margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    align-self: center;
 }
 
 .modal {

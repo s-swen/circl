@@ -14,7 +14,10 @@ def dashboard(request):
 def contact_list(request):
     contacts = Contact.objects.filter(user=request.user.profile)
     category_choices = Contact.CATEGORY_CHOICES
-    return render(request, 'dash/contact_list.html', {'contacts': contacts, 'category_choices': category_choices})
+    return render(request, 'dash/contact_list.html', {
+        'contacts': contacts,
+        'category_choices': category_choices
+    })
 
 @login_required
 def edit_contact(request, pk=None):

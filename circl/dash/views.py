@@ -80,3 +80,9 @@ def signup_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'dash/signup.html', {'form': form})
+
+@login_required
+def category_contacts(request, category):
+    contacts = Contact.objects.filter(user=request.user.profile, category=category)
+    category_name = dict(Contact.CATEGORY_CHOICES)[category]
+    return render(request, 'dash/category_contacts.html', {'contacts': contacts, 'category_name': category_name})

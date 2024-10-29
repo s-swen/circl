@@ -2,61 +2,32 @@
 {% load static %}
 
 {% block content %}
-<h2 class="card-title">Contact Management</h2>
+<h2 class="card-title">{{ category_name }} Contacts</h2>
 
-<div class="card">
-    <h3 class="card-title">Add New Contact</h3>
-    <form method="post" action="{% url 'add-contact' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <input type="text" name="first_name" class="form-control" placeholder="Enter first name" required>
-        </div>
-        <div class="form-group">
-            <input type="text" name="last_name" class="form-control" placeholder="Enter last name" required>
-        </div>
-        <div class="form-group">
-            <select name="category" class="form-control" required>
-                {% for value, label in category_choices %}
-                    <option value="{{ value }}">{{ label }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn"><i class="bi bi-plus"></i> Add Contact</button>
-    </form>
+<div class="category-card">
+    <ul class="contact-list">
+        {% for contact in contacts %}
+        <li class="contact-item">
+            <div class="contact-info">
+                {% if contact.profile_picture %}
+                    <img src="{{ contact.profile_picture.url }}" alt="{{ contact.first_name }} {{ contact.last_name }}" class="profile-pic">
+                {% else %}
+                    <div class="profile-pic initials">{{ contact.first_name|first }}{{ contact.last_name|first }}</div>
+                {% endif %}
+                <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
+            </div>
+            <div class="contact-actions">
+                <a href="{% url 'edit-contact' contact.id %}" class="icon-btn"><i class="bi bi-pencil"></i></a>
+                <button class="icon-btn delete-btn" data-id="{{ contact.id }}"><i class="bi bi-trash"></i></button>
+            </div>
+        </li>
+        {% empty %}
+        <li>No contacts in this category.</li>
+        {% endfor %}
+    </ul>
 </div>
 
-<div class="category-grid">
-    {% for category, category_name in category_choices %}
-    <div class="category-card">
-        <h3 class="card-title">{{ category_name }} Contacts</h3>
-        <ul class="contact-list">
-            {% for contact in contacts %}
-            {% if contact.category == category %}
-            {% if forloop.counter <= 7 %}
-            <li class="contact-item">
-                <div class="contact-info">
-                    {% if contact.profile_picture %}
-                        <img src="{{ contact.profile_picture.url }}" alt="{{ contact.first_name }} {{ contact.last_name }}" class="profile-pic">
-                    {% else %}
-                        <div class="profile-pic initials">{{ contact.first_name|first }}{{ contact.last_name|first }}</div>
-                    {% endif %}
-                    <a href="{% url 'contact-detail' contact.id %}">{{ contact.first_name }} {{ contact.last_name }}</a>
-                </div>
-                <div class="contact-actions">
-                    <a href="{% url 'edit-contact' contact.id %}" class="icon-btn"><i class="bi bi-pencil"></i></a>
-                    <button class="icon-btn delete-btn" data-id="{{ contact.id }}"><i class="bi bi-trash"></i></button>
-                </div>
-            </li>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-        </ul>
-        {% if contacts|length > 7 %}
-        <a href="{% url 'category-contacts' category %}" class="btn view-more-btn">View More</a>
-        {% endif %}
-    </div>
-    {% endfor %}
-</div>
+<a href="{% url 'contact-list' %}" class="btn back-btn">Back to All Categories</a>
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">
@@ -109,17 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-
 .category-card {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 20px;
+    margin-bottom: 20px;
 }
 
 .contact-list {
@@ -170,11 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-left: 10px;
 }
 
-.view-more-btn {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-top: 10px;
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
 }
 
 .modal {

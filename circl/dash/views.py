@@ -41,13 +41,15 @@ def contact_detail(request, pk):
     contact = get_object_or_404(Contact, pk=pk, user=request.user.profile)
     return render(request, 'dash/contact_detail.html', {'contact': contact})
 
+
 @login_required
 def delete_contact(request, pk):
+    contact = get_object_or_404(Contact, pk=pk, user=request.user.profile)
     if request.method == 'POST':
-        contact = Contact.objects.get(pk=pk, user=request.user.profile)
         contact.delete()
-    return redirect('contact-list')
-
+        return redirect('contact-list')
+    return render(request, 'dash/delete_contact.html', {'contact': contact})
+    
 @login_required
 def todo(request):
     return render(request, 'dash/todo.html')
